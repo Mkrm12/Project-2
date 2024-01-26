@@ -1,0 +1,114 @@
+const fs = require('fs');
+
+const dataMap = {};
+
+try {
+    const fileContent = fs.readFileSync('Projet2.csv', 'utf8');
+    const lines = fileContent.split('\n');
+    
+    // Skip the first line
+    lines.shift();
+
+    lines.forEach(line => {
+        const values = line.split(',');
+
+        // Check if the array has the expected length
+        if (values.length >= 3) {
+            const fullName = `${values[0]} ${values[1]}`;
+            const yearlySalary = parseInt(values[2].replace(/,/g, '').replace(/"/g, ' '), 10); // Remove commas and replace quotes with space
+
+            // Check eligibility for packages
+            const monthlySalary = yearlySalary / 12.0;
+            const eligibility1k = (monthlySalary > 100);
+            const eligibility3k = (monthlySalary > 300);
+            const eligibility5k = (monthlySalary > 500);
+
+            // Store information in dataMap
+            dataMap[fullName] = {
+                firstName: values[0],
+                lastName: values[1],
+                yearlySalary: yearlySalary,
+                monthlySalary: monthlySalary,
+                eligibility1k: eligibility1k,
+                eligibility3k: eligibility3k,
+                eligibility5k: eligibility5k,
+            };
+              // Print information
+              console.log(" ");
+              console.log("Full Name: " + fullName);
+              console.log("Yearly Salary: £" + yearlySalary.toLocaleString());
+              console.log("Monthly Salary: £" + monthlySalary.toFixed(2));
+              console.log("Eligibility for £1k Package: " + (eligibility1k ? "Eligible" : "Not Eligible"));
+              console.log("Eligibility for £3k Package: " + (eligibility3k ? "Eligible" : "Not Eligible"));
+              console.log("Eligibility for £5k Package: " + (eligibility5k ? "Eligible" : "Not Eligible"));
+              console.log(" ");
+        }
+    });
+} catch (err) {
+    console.error(err);
+}
+
+// Create packages and distribute individuals dynamically
+const packages = {};
+
+Object.entries(dataMap).forEach(([fullName, values]) => {
+    const { eligibility5k, eligibility3k, eligibility1k } = values;
+
+    let packageType = '';
+
+    if (eligibility5k) {
+        packageType = '£5k';
+    } else if (eligibility3k) {
+        packageType = '£3k';
+    } else if (eligibility1k) {
+        packageType = '£1k';
+    } else {
+        packageType = 'Rejected';
+    }
+
+    // Add individual to the chosen package
+    if (packageType !== 'Rejected') {
+        let packageNumber = 1;
+        while (packages[`${packageType}_${packageNumber}`] && packages[`${packageType}_${packageNumber}`].length >= 10) {
+            packageNumber++;
+        }
+
+        packages[`${packageType}_${packageNumber}`] = packages[`${packageType}_${packageNumber}`] || [];
+        packages[`${packageType}_${packageNumber}`].push(fullName);
+    } else {
+        packages[packageType] = packages[packageType] || [];
+        packages[packageType].push(fullName);
+    }
+});
+
+// Sort the packages
+const sortedPackages = Object.keys(packages).sort((a, b) => {
+    const order = ['£5k', '£3k', '£1k', 'Rejected'];
+    return order.indexOf(a.split('_')[0]) - order.indexOf(b.split('_')[0]);
+});
+
+// Print information about packages with random indexes
+sortedPackages.forEach(packageType => {
+    const individuals = packages[packageType];
+    console.log(`Package: ${packageType}`);
+    console.log(`Number of People: ${individuals.length}`);
+    
+    if (individuals.length > 0) {
+        const randomIndexes = getRandomIndexes(individuals.length);
+        individuals.forEach((person, index) => {
+            console.log(`${person} [${randomIndexes[index]}]`);
+        });
+    }
+    
+    console.log(" ");
+});
+
+// Assign random and unique index for each person within a group
+function getRandomIndexes(length) {
+    const indexes = Array.from({ length }, (_, index) => index + 1);
+    for (let i = indexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+    }
+    return indexes;
+}
