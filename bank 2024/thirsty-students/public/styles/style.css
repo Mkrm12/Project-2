@@ -1,0 +1,231 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo img {
+    height: 40px; /* Adjust as needed */
+}
+
+.navbar-buttons,
+.navbar-buttons-right {
+    display: flex;
+}
+
+.navbar-button {
+    margin-right: 10px; /* Adjust spacing between buttons */
+    padding: 8px 15px;
+    background-color: white;
+    border: 1px solid #000; /* Black border */
+    border-radius: 5px;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.navbar-button:hover {
+    background-color: #333;
+    color: white;
+}
+
+.square-box-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10% 20%;
+}
+
+.square-box {
+    width: 48%; /* Adjust the width of the boxes */
+    padding: 20px;
+    border: 2px solid  #031C30BF;
+    ;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.image-box img {
+    width: 100%;
+    height: auto;
+    
+}
+
+.contact-page {
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+}
+
+.contact-details,
+.contact-form {
+    width: 100%;
+}
+
+.main-container {
+    display: flex;
+    border: 2px solid #000000;
+    border-radius: 20px;
+    background-color: #031C30BF;
+    ;
+    margin: 5%;
+    height: 500px;
+}
+  
+.contact-container {
+    display: flex;
+    width: 100%;
+}
+  
+.contact-details {
+    margin: 5% 5% 5% 10%; /* top right bottom left */
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #fff;
+
+    font-size: 26px; /* Adjust the font size as needed */
+
+}
+.contact-details h2{
+    margin-left: 60px;
+    margin-bottom: 60px;
+}
+.contact-details p {
+    width: 70%;
+    font-size: 19.5px; /* Adjust the font size as needed */
+
+
+}
+.contact-details button {
+    display: block;
+    width: 70%;
+    font-size: 20px; /* Adjust the font size as needed */
+
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: #031C30BF;
+    ;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.contact-details button:hover {
+    background-color: #020f1abf;
+    ;
+}
+.form {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 20px;
+    width: 40%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    margin: 2% 0; /* 5% top and bottom margin, 0 left and right */
+}
+
+.form h2 {
+    text-align: center;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form label {
+    margin-bottom: 8px;
+}
+
+.form input,
+.form textarea {
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.form button {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form button:hover {
+    background-color: #595959;
+}
+
+/* Updated styles for the registration form */
+.registration-form {
+    background-color:#031C30BF;
+    ;
+    color: #ffffff;
+  
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 20px;
+    width: 30%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    margin: 3% 3% 35% 33%; /* Center the form horizontally and add 5% top and bottom margin */
+    text-align: left; /* Center text within the form */
+}
+
+.registration-form h1 {
+    text-align: center; /* Center text within the form */
+
+    margin-bottom: 45px; /* Add some space below the heading */
+}
+
+.registration-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally within the form */
+}
+
+.registration-form label {
+    margin: auto;
+   
+}
+
+.registration-form input,
+.registration-form textarea {
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    box-sizing: border-box;
+    width: 100%; /* Make input fields full-width within the form */
+}
+
+.registration-form button {
+     padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.registration-form button:hover {
+    background-color: #595959;
+}
+
+
+
+
+  

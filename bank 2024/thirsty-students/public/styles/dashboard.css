@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+.menu {
+    position: relative; /* Add relative positioning to the menu */
+    width: 13%;
+    background-color: #031C30;
+    color: white;
+    padding: 20px;
+    border-right: 1px solid white; /* Add border to the right */
+}
+
+.menu .logo-container {
+    margin-bottom: 10%;
+}
+
+.menu button {
+    margin-top: 10%;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%; /* Make the button take up the full width */
+    text-align: left; /* Align text to the left */
+}
+
+.menu img {
+    display: block;
+    width: 100%; /* Make the image take up the full width of the button */
+    height: 50px; /* Maintain aspect ratio */
+    margin-bottom: 30px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin-bottom: 10px;
+}
+
+.menu a {
+    display: block;
+    width: 80%; /* Make links take up 80% of the menu */
+    margin: 0 auto; /* Center the links */
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    background-color: #1E4157; /* Choose a color for the links */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add transition for hover effect */
+}
+
+.menu a:hover {
+    background-color: #3E698F; /* Change color on hover */
+}
+
+.content {
+    position: relative; /* Add relative positioning to the content */
+    width: 87%; /* Adjusted width for better alignment */
+    background-color: white;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    color: #031C30BF;
+}
+
+.menu .bottom a {
+    margin-top: 100px;
+}
+
+.menu .last a {
+    margin-top: 10px;
+}
