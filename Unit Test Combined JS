@@ -1,0 +1,231 @@
+const assert = require('assert');
+
+// Function to calculate eligibility
+function calculateEligibility(monthlySalary, eligibilityAmount) {
+    return monthlySalary > eligibilityAmount ? 'Eligible' : 'Not Eligible';
+}
+
+// Function to test eligibility calculation
+function testEligibilityCalculation() {
+    assert.strictEqual(calculateEligibility(120, 100), 'Eligible');
+    assert.strictEqual(calculateEligibility(80, 100), 'Not Eligible');
+    // Add more eligibility tests as needed
+}
+
+// Function to assign individuals to packages
+function assignPackage(fullName, packages, eligibility5k, eligibility3k, eligibility1k, getRandomIndexes) {
+    let packageType = '';
+
+    if (eligibility5k) {
+        packageType = '£5k';
+    } else if (eligibility3k) {
+        packageType = '£3k';
+    } else if (eligibility1k) {
+        packageType = '£1k';
+    } else {
+        packageType = 'Rejected';
+    }
+
+    // Add individual to the chosen package
+    if (packageType !== 'Rejected') {
+        let packageNumber = 1;
+        while (packages[`${packageType}_${packageNumber}`] && packages[`${packageType}_${packageNumber}`].length >= 10) {
+            packageNumber++;
+        }
+
+        packages[`${packageType}_${packageNumber}`] = packages[`${packageType}_${packageNumber}`] || [];
+        packages[`${packageType}_${packageNumber}`].push(fullName);
+    } else {
+        packages[packageType] = packages[packageType] || [];
+        packages[packageType].push(fullName);
+    }
+}
+
+// Function to test package assignment
+function testPackageAssignment() {
+    const testDataMap = {
+        'John Doe': { eligibility5k: true, eligibility3k: false, eligibility1k: false },
+        'Jane Doe': { eligibility5k: false, eligibility3k: true, eligibility1k: false },
+        // Add more test data as needed
+    };
+
+    const packages = {};
+
+    // Mock the getRandomIndexes function
+    const getRandomIndexes = (length) => Array.from({ length }, (_, index) => index + 1);
+
+    Object.entries(testDataMap).forEach(([fullName, values]) => {
+        const { eligibility5k, eligibility3k, eligibility1k } = values;
+        assignPackage(fullName, packages, eligibility5k, eligibility3k, eligibility1k, getRandomIndexes);
+    });
+
+    assert.deepStrictEqual(packages, {
+        '£5k_1': ['John Doe'],
+        '£3k_1': ['Jane Doe'],
+        // Add more package assertions as needed
+    });
+}
+
+// Function to generate random assignment indexes
+function getRandomIndexes(length) {
+    const indexes = Array.from({ length }, (_, index) => index + 1);
+    for (let i = indexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+    }
+    return indexes;
+}
+
+// Function to test random assignment index
+function testRandomAssignmentIndex() {
+    const indexes = getRandomIndexes(10);
+    assert.strictEqual(indexes.length, 10);
+    // Add more assertions for random assignment as needed
+}
+
+// Run all the tests
+testEligibilityCalculation();
+testPackageAssignment();
+testRandomAssignmentIndex();
+// Run other tests as needed
+
+
+const assert = require('assert');
+
+// Eligibility Test Cases
+describe('Eligibility', () => {
+    it('should be eligible for £1k package if monthly salary is greater than 100', () => {
+        const result = calculateEligibility(120, 100);
+        assert.strictEqual(result.eligibility1k, true);
+    });
+
+    it('should not be eligible for £1k package if monthly salary is less than or equal to 100', () => {
+        const result = calculateEligibility(80, 100);
+        assert.strictEqual(result.eligibility1k, false);
+    });
+
+    it('should be eligible for £3k package if monthly salary is greater than 300', () => {
+        const result = calculateEligibility(350, 300);
+        assert.strictEqual(result.eligibility3k, true);
+    });
+
+    it('should not be eligible for £3k package if monthly salary is less than or equal to 300', () => {
+        const result = calculateEligibility(250, 300);
+        assert.strictEqual(result.eligibility3k, false);
+    });
+
+    it('should be eligible for £5k package if monthly salary is greater than 500', () => {
+        const result = calculateEligibility(600, 500);
+        assert.strictEqual(result.eligibility5k, true);
+    });
+
+    it('should not be eligible for £5k package if monthly salary is less than or equal to 500', () => {
+        const result = calculateEligibility(450, 500);
+        assert.strictEqual(result.eligibility5k, false);
+    });
+});
+
+// Group Package Assignment Test Cases
+describe('Group Package Assignment', () => {
+    it('should assign individuals to the £5k package if eligible', () => {
+        const result = assignGroupPackages(createMockDataMap({ eligibility5k: true }));
+        assert.strictEqual(result.packages['£5k_1'].length, 1);
+    });
+
+    it('should assign individuals to the £3k package if eligible and £5k package is full', () => {
+        const result = assignGroupPackages(createMockDataMap({ eligibility5k: true, eligibility3k: true }));
+        assert.strictEqual(result.packages['£3k_1'].length, 1);
+    });
+
+    it('should assign individuals to the £1k package if eligible and higher packages are full', () => {
+        const result = assignGroupPackages(createMockDataMap({ eligibility5k: true, eligibility3k: true, eligibility1k: true }));
+        assert.strictEqual(result.packages['£1k_1'].length, 1);
+    });
+
+    it('should assign rejected individuals to the "Rejected" category', () => {
+        const result = assignGroupPackages(createMockDataMap({ eligibility5k: false, eligibility3k: false, eligibility1k: false }));
+        assert.strictEqual(result.packages['Rejected'].length, 1);
+    });
+});
+
+// Random Assignment Test Case
+describe('Random Assignment', () => {
+    it('should assign random and unique indexes to individuals within a group', () => {
+        const indexes = getRandomIndexes(5);
+        const uniqueIndexes = new Set(indexes);
+        assert.strictEqual(uniqueIndexes.size, indexes.length);
+    });
+});
+
+// Mock function to create data map for testing
+function createMockDataMap(eligibility) {
+    return {
+        'John Doe': {
+            eligibility5k: eligibility.eligibility5k || false,
+            eligibility3k: eligibility.eligibility3k || false,
+            eligibility1k: eligibility.eligibility1k || false,
+        }
+    };
+}
+
+// Mock function for eligibility calculation
+function calculateEligibility(monthlySalary, eligibilityAmount) {
+    const eligibility1k = monthlySalary > 100;
+    const eligibility3k = monthlySalary > 300;
+    const eligibility5k = monthlySalary > 500;
+
+    return {
+        eligibility1k,
+        eligibility3k,
+        eligibility5k,
+    };
+}
+
+// Mock function for group package assignment
+function assignGroupPackages(dataMap) {
+    const packages = {};
+    Object.entries(dataMap).forEach(([fullName, values]) => {
+        const { eligibility5k, eligibility3k, eligibility1k } = values;
+
+        let packageType = '';
+
+        if (eligibility5k) {
+            packageType = '£5k';
+        } else if (eligibility3k) {
+            packageType = '£3k';
+        } else if (eligibility1k) {
+            packageType = '£1k';
+        } else {
+            packageType = 'Rejected';
+        }
+
+        if (packageType !== 'Rejected') {
+            let packageNumber = 1;
+            while (packages[`${packageType}_${packageNumber}`] && packages[`${packageType}_${packageNumber}`].length >= 10) {
+                packageNumber++;
+            }
+
+            packages[`${packageType}_${packageNumber}`] = packages[`${packageType}_${packageNumber}`] || [];
+            packages[`${packageType}_${packageNumber}`].push(fullName);
+        } else {
+            packages[packageType] = packages[packageType] || [];
+            packages[packageType].push(fullName);
+        }
+    });
+
+    return {
+        packages,
+    };
+}
+
+// Mock function for random assignment
+function getRandomIndexes(length) {
+    const indexes = Array.from({ length }, (_, index) => index + 1);
+    for (let i = indexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+    }
+    return indexes;
+}
+
+
